@@ -1,0 +1,17 @@
+<idea-plugin>
+    <id>com.linhpd.pomodoro</id>
+    <name>Pomodoro Boost</name>
+    <vendor email="work.linhpd@gmail.com">Phạm Duy Linh</vendor>
+    <description>Pomodoro Boost is a customizable Pomodoro timer designed specifically for IntelliJ IDEA. Whether you're
+        coding, studying, or writing, Pomodoro Boost helps you stay focused and productive. Inspired by the Pomodoro
+        Technique developed by Francesco Cirillo, this plugin breaks your work into intervals, traditionally 25 minutes
+        in length, separated by short breaks. With Pomodoro Boost, you can optimize your work sessions directly within
+        your IntelliJ environment, enhancing your efficiency and maintaining your focus.
+    </description>
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow factoryClass="com.linhpd.pomodoro.ui.toolwindows.PomodoroToolWindowFactory"
+                    id="Chat GPT" icon="/icons/icon.svg"
+                    anchor="right" secondary="true"/>
+    </extensions>
+</idea-plugin>
