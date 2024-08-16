@@ -1,4 +1,4 @@
-package com.linhpd.pomodoro.uis.components
+package com.linhpd.pomodoro.uis.widgets
 
 import java.awt.Color
 import java.awt.Graphics

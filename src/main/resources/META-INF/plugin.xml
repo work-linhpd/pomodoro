@@ -13,5 +13,12 @@
         <toolWindow factoryClass="com.linhpd.pomodoro.uis.toolwindows.PomodoroToolWindowFactory"
                     id="Pomodoro" icon="/icons/icon.svg"
                     anchor="right" secondary="true"/>
+
+        <applicationService serviceImplementation="com.linhpd.pomodoro.services.SoundServiceImpl"
+                            serviceInterface="com.linhpd.pomodoro.services.SoundService"/>
+        <applicationService serviceImplementation="com.linhpd.pomodoro.services.ConfigServiceImpl"
+                            serviceInterface="com.linhpd.pomodoro.services.ConfigService"/>
+        <applicationService serviceImplementation="com.linhpd.pomodoro.services.NotificationServiceImpl"
+                            serviceInterface="com.linhpd.pomodoro.services.NotificationService"/>
     </extensions>
 </idea-plugin>
