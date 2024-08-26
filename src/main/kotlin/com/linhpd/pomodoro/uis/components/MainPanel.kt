@@ -27,6 +27,7 @@ class MainPanel(private val project: Project) : JPanel() {
         add(JSeparator())
         add(SettingPanel(project))
         add(JSeparator())
+        add(TasksPanel(project))
     }
 
     private fun moveToNextTab() {
