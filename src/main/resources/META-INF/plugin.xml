@@ -20,5 +20,7 @@
                             serviceInterface="com.linhpd.pomodoro.services.ConfigService"/>
         <applicationService serviceImplementation="com.linhpd.pomodoro.services.NotificationServiceImpl"
                             serviceInterface="com.linhpd.pomodoro.services.NotificationService"/>
+        <applicationService serviceImplementation="com.linhpd.pomodoro.services.TaskServiceImpl"
+                            serviceInterface="com.linhpd.pomodoro.services.TaskService"/>
     </extensions>
 </idea-plugin>

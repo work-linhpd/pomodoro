@@ -2,15 +2,16 @@ package com.linhpd.pomodoro.uis.components
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.linhpd.pomodoro.models.enums.PomodoroRound
 import com.linhpd.pomodoro.services.ConfigService
 import com.linhpd.pomodoro.services.NotificationService
+import javax.swing.BorderFactory
 import javax.swing.BoxLayout
-import javax.swing.JPanel
 import javax.swing.JSeparator
 
-class MainPanel(private val project: Project) : JPanel() {
+class MainPanel(private val project: Project) : JBPanel<MainPanel>() {
 
     private val notificationService = service<NotificationService>()
     private val configService = service<ConfigService>()
@@ -23,6 +24,7 @@ class MainPanel(private val project: Project) : JPanel() {
 
     init {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
+        border = BorderFactory.createEmptyBorder(0, 5, 0, 5)
         add(tabbedPane)
         add(JSeparator())
         add(SettingPanel(project))

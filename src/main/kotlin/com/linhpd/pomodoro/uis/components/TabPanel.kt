@@ -1,6 +1,8 @@
 package com.linhpd.pomodoro.uis.components
 
 import com.intellij.openapi.components.service
+import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBPanel
 import com.linhpd.pomodoro.models.enums.PomodoroRound
 import com.linhpd.pomodoro.services.ConfigService
 import com.linhpd.pomodoro.services.SoundService
@@ -8,15 +10,13 @@ import com.linhpd.pomodoro.uis.widgets.ProgressButton
 import com.linhpd.pomodoro.utils.Utils.Companion.calculatePercentage
 import java.awt.BorderLayout
 import java.awt.Font
-import javax.swing.JLabel
-import javax.swing.JPanel
 import javax.swing.SwingConstants
 import javax.swing.Timer
 
 class TabPanel(
     val round: PomodoroRound,
     private val onTimerCompleteCallBack: () -> Unit
-) : JPanel(BorderLayout(0, 20)) {
+) : JBPanel<TabPanel>(BorderLayout(0, 20)) {
     companion object {
         private const val PAUSE_TEXT_LABEL = "PAUSE"
         private const val START_TEXT_LABEL = "START"
@@ -27,7 +27,7 @@ class TabPanel(
     private val roundInSeconds = configService.roundInSeconds(round)
 
 
-    private val timerLabel: JLabel = JLabel(convertSecondsToMinuteFormat(roundInSeconds), SwingConstants.CENTER).apply {
+    private val timerLabel = JBLabel(convertSecondsToMinuteFormat(roundInSeconds), SwingConstants.CENTER).apply {
         font = Font("Arial", Font.BOLD, 40)
     }
     private val button: ProgressButton

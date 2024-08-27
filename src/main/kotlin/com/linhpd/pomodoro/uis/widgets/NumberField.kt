@@ -1,7 +1,7 @@
 package com.linhpd.pomodoro.uis.widgets
 
+import com.intellij.ui.components.JBTextField
 import com.linhpd.pomodoro.utils.ValidationUtils
-import javax.swing.JTextField
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.text.AbstractDocument
@@ -12,7 +12,7 @@ class NumberField(
     initValue: Int?,
     updateButtonState: () -> Unit = {},
     private val allowZero: Boolean = false,
-) : JTextField() {
+) : JBTextField() {
     init {
         if (initValue != null) {
             text = initValue.toString()

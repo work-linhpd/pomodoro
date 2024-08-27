@@ -2,7 +2,9 @@ package com.linhpd.pomodoro.uis.components
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBPanel
 import com.linhpd.pomodoro.models.entities.PluginConfig
 import com.linhpd.pomodoro.models.enums.PomodoroRound
 import com.linhpd.pomodoro.services.ConfigService
@@ -12,17 +14,20 @@ import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.GridBagLayout
 import java.awt.GridLayout
-import javax.swing.*
+import javax.swing.BoxLayout
+import javax.swing.JButton
+import javax.swing.JComponent
+import javax.swing.JPanel
 
-class SettingPanel(project: Project) : JPanel() {
+class SettingPanel(project: Project) : JBPanel<SettingPanel>() {
 
     private val configService = service<ConfigService>()
     private val notificationService = service<NotificationService>()
     private val intervalsTablePanel = IntervalsTablePanel(::updateSaveButtonState)
-    private val autoStartBreakCheckBox = JCheckBox().apply {
+    private val autoStartBreakCheckBox = JBCheckBox().apply {
         this.isSelected = configService.config.autoStartBreak
     }
-    private val autoStartPomodoroCheckBox = JCheckBox().apply {
+    private val autoStartPomodoroCheckBox = JBCheckBox().apply {
         this.isSelected = configService.config.autoStartPomodoro
     }
     private val longBreakIntervalTextField = NumberField(configService.config.longBreakInterval, ::updateSaveButtonState)
@@ -58,8 +63,8 @@ class SettingPanel(project: Project) : JPanel() {
                 && longBreakIntervalTextField.isValidInput()
     }
 
-    private fun createInputPanel(label: String, inputComponent: JComponent): JPanel {
-        return JPanel(BorderLayout()).apply {
+    private fun createInputPanel(label: String, inputComponent: JComponent): JBPanel<JBPanel<*>> {
+        return JBPanel<JBPanel<*>>(BorderLayout()).apply {
             preferredSize = Dimension(preferredSize.width, 30)
             add(JBLabel(label), BorderLayout.WEST)
             add(inputComponent, BorderLayout.EAST)
@@ -68,7 +73,7 @@ class SettingPanel(project: Project) : JPanel() {
 
 }
 
-class IntervalsTablePanel(updateButtonState: () -> Unit = {}) : JPanel() {
+class IntervalsTablePanel(updateButtonState: () -> Unit = {}) : JBPanel<IntervalsTablePanel>() {
 
     private val configService = service<ConfigService>()
     private val pomodoroTextField = NumberField(configService.roundInMinutes(PomodoroRound.POMODORO), updateButtonState)

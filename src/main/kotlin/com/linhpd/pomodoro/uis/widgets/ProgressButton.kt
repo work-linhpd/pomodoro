@@ -1,5 +1,6 @@
 package com.linhpd.pomodoro.uis.widgets
 
+import com.intellij.ui.JBColor
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Graphics2D
@@ -14,8 +15,8 @@ class ProgressButton(text: String) : JButton(text) {
             repaint()
         }
 
-    private val lightThemeColor = Color(52, 152, 219) // Bright blue
-    private val darkThemeColor = Color(41, 128, 185)  // Slightly darker blue
+    private val lightThemeColor = JBColor(Color(52, 152, 219), Color(52, 152, 219)) // Bright blue
+    private val darkThemeColor = JBColor(Color(41, 128, 185), Color(41, 128, 185))  // Slightly darker blue
 
     init {
         isContentAreaFilled = false

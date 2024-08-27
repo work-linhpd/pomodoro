@@ -1,60 +1,76 @@
 package com.linhpd.pomodoro.uis.components
 
+import com.intellij.icons.AllIcons
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.ui.JBColor
+import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
-import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBPanel
-import com.intellij.ui.components.JBScrollPane
 import com.linhpd.pomodoro.models.entities.Task
+import com.linhpd.pomodoro.services.TaskService
 import java.awt.BorderLayout
-import java.awt.Component
+import java.awt.Dimension
 import java.awt.FlowLayout
-import javax.swing.*
+import javax.swing.BorderFactory
+import javax.swing.BoxLayout
+import javax.swing.JButton
 
-class TasksPanel(val project: Project) : JPanel() {
-    private val tasks = listOf(
-        Task("Write code for feature A", "High priority", 3),
-        Task("Fix bug in module B", "Check with QA", 2),
-        Task("Prepare documentation for module C", "Low priority", 1),
-    )
-    private val taskList = JBList<TaskItemPanel>().apply {
-        model = DefaultListModel<TaskItemPanel>().apply {
-            tasks.forEach { addElement(TaskItemPanel(it)) }
-        }
-        cellRenderer = CustomListItemRenderer()
+class TasksPanel(val project: Project) : JBPanel<TasksPanel>() {
+
+    private val taskService = service<TaskService>()
+    private val tasksContainer = JBPanel<JBPanel<*>>().apply {
+        layout = BoxLayout(this, BoxLayout.Y_AXIS)
     }
 
     init {
         layout = BorderLayout()
-        add(JBScrollPane(taskList), BorderLayout.CENTER)
+        updateTaskList()
+        add(tasksContainer, BorderLayout.CENTER)
+        add(createAddTaskButton(), BorderLayout.SOUTH)
     }
-}
 
-class CustomListItemRenderer : ListCellRenderer<TaskItemPanel> {
-    override fun getListCellRendererComponent(
-        list: JList<out TaskItemPanel>,
-        value: TaskItemPanel,
-        index: Int,
-        isSelected: Boolean,
-        cellHasFocus: Boolean
-    ): Component {
-        return value
+    private fun updateTaskList() {
+        tasksContainer.removeAll()
+        taskService.tasks.forEach { tasksContainer.add(TaskItemPanel(it)) }
+    }
+
+    private fun createAddTaskButton(): JButton {
+        return JButton().apply {
+            text = "Add Task"
+            icon = AllIcons.General.InlineAdd
+            addActionListener {
+                val task = Task(description = "New Task", estimatedPomodoros = 0, note = System.currentTimeMillis().toString())
+                taskService.addTask(task)
+                updateTaskList()
+                tasksContainer.revalidate()
+                tasksContainer.repaint()
+            }
+        }
     }
 }
 
 class TaskItemPanel(task: Task) : JBPanel<TaskItemPanel>() {
+    private val checkBox = JBCheckBox().apply {
+        isSelected = task.isCompleted
+        addActionListener {
+            isEnabled = !isSelected
+        }
+    }
+
     init {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
-        border = BorderFactory.createEmptyBorder(0, 10, 30, 10)
+        border = BorderFactory.createLineBorder(JBColor.white)
         add(JBPanel<JBPanel<*>>(BorderLayout()).apply {
             add(JBPanel<JBPanel<*>>().apply {
                 layout = FlowLayout()
-                add(JCheckBox())
+                add(checkBox)
                 add(JBLabel(task.description))
             }, BorderLayout.WEST)
             add(JBLabel(task.estimatedPomodoros.toString()), BorderLayout.EAST)
         })
         add(JBPanel<JBPanel<*>>().apply {
+            preferredSize = Dimension(preferredSize.width, preferredSize.height + 20)
             add(JBLabel(task.note))
         })
     }
